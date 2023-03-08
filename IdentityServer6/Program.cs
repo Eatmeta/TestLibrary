@@ -74,7 +74,7 @@ if (app.Environment.IsDevelopment())
     {
         await configurationDbContext.ApiResources.AddAsync(new ApiResource
         {
-            Name = Guid.NewGuid().ToString(),
+            Name = "129c9f17-04f2-4121-bf48-88f49382a319",
             DisplayName = "API",
             Scopes = new List<string> {"https://www.example.com/api"}
         }.ToEntity());
@@ -98,7 +98,7 @@ if (app.Environment.IsDevelopment())
         await configurationDbContext.Clients.AddRangeAsync(
             new Client
             {
-                ClientId = Guid.NewGuid().ToString(),
+                ClientId = "8aaac42f-5ba5-4714-8fba-9b2947b7f04a",
                 ClientSecrets = new List<Secret> {new("secret".Sha512())},
                 ClientName = "Admin",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
