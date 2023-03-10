@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230309111649_InitialIdentityApplicationDbMigration")]
-    partial class InitialIdentityApplicationDbMigration
+    [Migration("20230310092803_InitialDbMigration")]
+    partial class InitialDbMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,14 +27,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AuthorId"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
+
+                    b.Property<Guid?>("BookId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -44,9 +45,11 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("AuthorId")
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Authors");
@@ -54,28 +57,28 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            AuthorId = 1,
+                            Id = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
                             BirthDate = new DateOnly(1799, 6, 6),
                             FirstName = "Alexander",
                             LastName = "Pushkin"
                         },
                         new
                         {
-                            AuthorId = 2,
+                            Id = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
                             BirthDate = new DateOnly(1960, 11, 10),
                             FirstName = "Neil",
                             LastName = "Gaiman"
                         },
                         new
                         {
-                            AuthorId = 3,
+                            Id = new Guid("6fff3331-3bdd-4ca2-a178-6a35fd653c59"),
                             BirthDate = new DateOnly(1948, 4, 28),
                             FirstName = "Terry",
                             LastName = "Pratchett"
                         },
                         new
                         {
-                            AuthorId = 4,
+                            Id = new Guid("a1784ca2-887b-4132-3bdd-9935fd65dd55"),
                             BirthDate = new DateOnly(1974, 7, 14),
                             FirstName = "David",
                             LastName = "Mitchell"
@@ -84,63 +87,61 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.AuthorBook", b =>
                 {
-                    b.Property<int>("AuthorBookId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AuthorBookId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("AuthorBookId");
-
-                    b.HasIndex("AuthorBookId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("BookId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("AuthorBooks");
 
                     b.HasData(
                         new
                         {
-                            AuthorBookId = 1,
-                            AuthorId = 1,
-                            BookId = 1
+                            Id = 1,
+                            AuthorId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
+                            BookId = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb")
                         },
                         new
                         {
-                            AuthorBookId = 2,
-                            AuthorId = 2,
-                            BookId = 2
+                            Id = 2,
+                            AuthorId = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
+                            BookId = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba")
                         },
                         new
                         {
-                            AuthorBookId = 3,
-                            AuthorId = 3,
-                            BookId = 2
+                            Id = 3,
+                            AuthorId = new Guid("6fff3331-3bdd-4ca2-a178-6a35fd653c59"),
+                            BookId = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba")
                         },
                         new
                         {
-                            AuthorBookId = 4,
-                            AuthorId = 4,
-                            BookId = 3
+                            Id = 4,
+                            AuthorId = new Guid("a1784ca2-887b-4132-3bdd-9935fd65dd55"),
+                            BookId = new Guid("150c81c6-2458-466e-907a-2df11325e2b8")
                         });
                 });
 
             modelBuilder.Entity("Domain.Models.Book", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookId"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -160,9 +161,9 @@ namespace Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.HasKey("BookId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BookId")
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Books");
@@ -170,21 +171,21 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            BookId = 1,
+                            Id = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"),
                             Description = "Eugene Onegin is a novel written in verse, and is one of the most influential works of Pushkin in particular and for Russian literature in general.",
                             Isbn = "9783161484100",
                             Title = "Eugene Onegin"
                         },
                         new
                         {
-                            BookId = 2,
+                            Id = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"),
                             Description = "Internationally bestselling authors Neil Gaiman and Terry Pratchett teamed up to write this witty comedy about the birth Satan’s son and the coming of the End Times.",
                             Isbn = "9780552137034",
                             Title = "Good Omens"
                         },
                         new
                         {
-                            BookId = 3,
+                            Id = new Guid("150c81c6-2458-466e-907a-2df11325e2b8"),
                             Description = "A postmodern visionary who is also a master of styles of genres, David Mitchell combines flat-out adventure, a Nabokovian lore of puzzles, a keen eye for character, and a taste for mind-bending philosophical and scientific speculation.",
                             Isbn = "9781529324983",
                             Title = "Cloud Atlas"
@@ -193,71 +194,76 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Models.BookGenre", b =>
                 {
-                    b.Property<int>("BookGenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookGenreId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
-                    b.HasKey("BookGenreId");
-
-                    b.HasIndex("BookGenreId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
                     b.HasIndex("GenreId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("BookGenres");
 
                     b.HasData(
                         new
                         {
-                            BookGenreId = 1,
-                            BookId = 1,
+                            Id = 1,
+                            BookId = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"),
                             GenreId = 1
                         },
                         new
                         {
-                            BookGenreId = 2,
-                            BookId = 2,
+                            Id = 2,
+                            BookId = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"),
                             GenreId = 2
                         },
                         new
                         {
-                            BookGenreId = 3,
-                            BookId = 3,
+                            Id = 3,
+                            BookId = new Guid("150c81c6-2458-466e-907a-2df11325e2b8"),
                             GenreId = 3
                         },
                         new
                         {
-                            BookGenreId = 4,
-                            BookId = 3,
+                            Id = 4,
+                            BookId = new Guid("150c81c6-2458-466e-907a-2df11325e2b8"),
                             GenreId = 4
                         });
                 });
 
             modelBuilder.Entity("Domain.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GenreId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("BookId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("GenreId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("GenreId")
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Genres");
@@ -265,24 +271,31 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            GenreId = 1,
+                            Id = 1,
                             Name = "Novel"
                         },
                         new
                         {
-                            GenreId = 2,
+                            Id = 2,
                             Name = "Comedy"
                         },
                         new
                         {
-                            GenreId = 3,
+                            Id = 3,
                             Name = "Science Fiction"
                         },
                         new
                         {
-                            GenreId = 4,
+                            Id = 4,
                             Name = "Fantasy"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Models.Author", b =>
+                {
+                    b.HasOne("Domain.Models.Book", null)
+                        .WithMany("Authors")
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("Domain.Models.AuthorBook", b =>
@@ -321,6 +334,20 @@ namespace Persistence.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Domain.Models.Genre", b =>
+                {
+                    b.HasOne("Domain.Models.Book", null)
+                        .WithMany("Genres")
+                        .HasForeignKey("BookId");
+                });
+
+            modelBuilder.Entity("Domain.Models.Book", b =>
+                {
+                    b.Navigation("Authors");
+
+                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }

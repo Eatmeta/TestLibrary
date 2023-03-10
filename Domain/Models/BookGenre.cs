@@ -4,8 +4,8 @@ namespace Domain.Models;
 
 public class BookGenre
 {
-    public int BookGenreId { get; set; }
-    public int BookId { get; set; }
+    public int Id { get; set; }
+    public Guid BookId { get; set; }
     [ForeignKey("BookId")]
     public virtual Book Book { get; set; }
     public int GenreId { get; set; }

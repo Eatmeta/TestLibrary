@@ -8,7 +8,7 @@ public class BookGenreConfiguration : IEntityTypeConfiguration<BookGenre>
 {
     public void Configure(EntityTypeBuilder<BookGenre> builder)
     {
-        builder.HasKey(bookGenre => bookGenre.BookGenreId);
-        builder.HasIndex(bookGenre => bookGenre.BookGenreId).IsUnique();
+        builder.HasKey(bookGenre => bookGenre.Id);
+        builder.HasIndex(bookGenre => bookGenre.Id).IsUnique();
     }
 }
