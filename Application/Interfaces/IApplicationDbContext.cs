@@ -7,8 +7,6 @@ public interface IApplicationDbContext
 {
     DbSet<Book> Books { get; set; }
     DbSet<Author> Authors { get; set; }
-    DbSet<Genre> Genres { get; set; }
-    DbSet<AuthorBook> AuthorBooks { get; set; }
-    DbSet<BookGenre> BookGenres { get; set; }
+    DbSet<AuthorBook> AuthorsBooks { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

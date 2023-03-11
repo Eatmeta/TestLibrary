@@ -18,7 +18,9 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
             Id = Guid.NewGuid(),
             Title = request.Title,
             Isbn = request.Isbn,
-            Description = request.Description
+            Description = request.Description,
+            Authors = request.Authors,
+            Genre = request.Genre
         };
         
         await _dbContext.Books.AddAsync(book, cancellationToken);

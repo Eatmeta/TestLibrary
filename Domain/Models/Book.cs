@@ -1,13 +1,25 @@
 ﻿namespace Domain.Models;
 
+public enum GenreEnum
+{
+    Novel,
+    Comedy,
+    ScienceFiction,
+    Fantasy
+}
+
 public class Book
 {
     public Guid Id { get; set; }
     public string Isbn { get; set; }
     public string Title { get; set; }
-    public List<Genre> Genres { get; set; } = new();
+    public GenreEnum Genre { get; set; }
     public List<Author> Authors { get; set; } = new();
     public string? Description { get; set; }
     public DateOnly? IssueDate { get; set; }
-    public DateOnly? ReturnDate { get; set; }
+    public DateOnly? ExpireDate { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public List<AuthorBook> AuthorsBooks { get; set; } = new();
+    
+    public override string ToString() => $"{Id}:{Title}";
 }

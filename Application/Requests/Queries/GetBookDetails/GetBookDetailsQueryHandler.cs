@@ -18,11 +18,14 @@ public class GetBookDetailsQueryHandler : IRequestHandler<GetBookDetailsQuery, B
     public async Task<BookDetailsDto> Handle(GetBookDetailsQuery request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Books
-            .FirstOrDefaultAsync(book => book.Id == request.Id, cancellationToken);
-
+            .AsNoTracking()
+            .Include(b => b.Authors)
+            .FirstOrDefaultAsync(
+                book => book.Id == request.Id || book.Isbn == request.Isbn, cancellationToken);
+        
         if (entity == null)
             throw new NotFoundException(nameof(Book), request.Id);
-        
+
         return _mapper.Map<BookDetailsDto>(entity);
     }
 }

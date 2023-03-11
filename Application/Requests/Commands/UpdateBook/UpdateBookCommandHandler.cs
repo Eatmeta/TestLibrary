@@ -21,14 +21,14 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         {
             throw new NotFoundException(nameof(Book), request.Id);
         }
-
+        
         entity.Isbn = request.Isbn;
         entity.Title = request.Title;
-        entity.Genres = request.Genres;
+        entity.Genre = request.Genre;
         entity.Authors = request.Authors;
         entity.Description = request.Description;
         entity.IssueDate = request.IssueDate;
-        entity.ReturnDate = request.ReturnDate;
+        entity.ExpireDate = request.ExpireDate;
         
         await _dbContext.SaveChangesAsync(cancellationToken);
     }

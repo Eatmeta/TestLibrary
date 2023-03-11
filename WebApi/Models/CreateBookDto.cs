@@ -1,22 +1,20 @@
 ﻿using Application.Common.Mappings;
+using Application.Requests.Commands.CreateBook;
 using AutoMapper;
 using Domain.Models;
 
-namespace Application.Requests.Queries.GetBookDetails;
+namespace WebApi.Models;
 
-public class BookDetailsDto : IMapWith<Book>
+public class CreateBookDto : IMapWith<CreateBookCommand>
 {
-    public Guid Id { get; set; }
     public string Isbn { get; set; }
     public string Title { get; set; }
     public GenreEnum Genre { get; set; }
     public List<Author> Authors { get; set; } = new();
     public string? Description { get; set; }
-    public DateOnly? IssueDate { get; set; }
-    public DateOnly? ExpireDate { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Book, BookDetailsDto>().ReverseMap();
+        profile.CreateMap<CreateBookDto, CreateBookCommand>().ReverseMap();
     }
 }

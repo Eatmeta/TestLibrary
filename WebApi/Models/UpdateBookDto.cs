@@ -1,10 +1,11 @@
 ﻿using Application.Common.Mappings;
+using Application.Requests.Commands.UpdateBook;
 using AutoMapper;
 using Domain.Models;
 
-namespace Application.Requests.Queries.GetBookDetails;
+namespace WebApi.Models;
 
-public class BookDetailsDto : IMapWith<Book>
+public class UpdateBookDto : IMapWith<UpdateBookCommand>
 {
     public Guid Id { get; set; }
     public string Isbn { get; set; }
@@ -17,6 +18,6 @@ public class BookDetailsDto : IMapWith<Book>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Book, BookDetailsDto>().ReverseMap();
+        profile.CreateMap<UpdateBookDto, UpdateBookCommand>().ReverseMap();
     }
 }
