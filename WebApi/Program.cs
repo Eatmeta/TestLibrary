@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using WebApi.JsonConverters;
+using WebApi.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,6 +87,8 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI();
 }
+
+app.UseCustomExceptionHandler();
 
 app.UseRouting();
 
