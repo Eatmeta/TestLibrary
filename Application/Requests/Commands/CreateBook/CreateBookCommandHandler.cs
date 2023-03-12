@@ -17,7 +17,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
-            Isbn = request.Isbn,
+            Isbn = request.Isbn.Replace("-", "").Replace(" ", ""),
             Description = request.Description,
             Authors = request.Authors,
             Genre = request.Genre

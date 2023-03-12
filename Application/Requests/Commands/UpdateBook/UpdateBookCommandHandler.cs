@@ -22,7 +22,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
             throw new NotFoundException(nameof(Book), request.Id);
         }
         
-        entity.Isbn = request.Isbn;
+        entity.Isbn = request.Isbn.Replace("-", "").Replace(" ", "");
         entity.Title = request.Title;
         entity.Genre = request.Genre;
         entity.Authors = request.Authors;

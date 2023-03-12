@@ -11,6 +11,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
         builder.HasKey(book => book.Id);
         
+        builder.Property(book => book.Isbn).HasMaxLength(13);
         builder.Property(book => book.Title).HasMaxLength(500);
         
         builder.Property(book => book.Genre).HasConversion(new EnumToStringConverter<GenreEnum>());
