@@ -4,13 +4,13 @@ using Application.Requests.Commands.UpdateBook;
 using Application.Requests.Queries.GetBookDetails;
 using Application.Requests.Queries.GetBookList;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
 namespace WebApi.Controllers;
 
 [Produces("application/json")]
-[Route("api/[controller]")]
 public class BookController : BaseController
 {
     private readonly IMapper _mapper;
@@ -51,6 +51,7 @@ public class BookController : BaseController
         return Ok(bookDetailsDto);
     }
     
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Guid>> Create([FromBody] CreateBookDto createBookDto)
     {
@@ -60,6 +61,7 @@ public class BookController : BaseController
         return Ok(bookId);
     }
     
+    [Authorize]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Update([FromBody] UpdateBookDto updateBookDto)
@@ -70,6 +72,7 @@ public class BookController : BaseController
         return NoContent();
     }
     
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {

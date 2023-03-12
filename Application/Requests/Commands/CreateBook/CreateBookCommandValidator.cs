@@ -6,9 +6,6 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
 {
     public CreateBookCommandValidator()
     {
-        RuleFor(createBookCommand => createBookCommand.Id)
-            .NotEqual(Guid.Empty).WithMessage("Id is required.");
-        
         RuleFor(createBookCommand => createBookCommand.Title)
             .NotEmpty().WithMessage("Title is required.")
             .MaximumLength(100).WithMessage("Title must be up to 100 characters long.");

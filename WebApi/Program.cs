@@ -4,11 +4,13 @@ using Application.Common.Mappings;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using WebApi;
 using WebApi.JsonConverters;
 using WebApi.Middleware;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +78,9 @@ builder.Services.AddSwaggerGen(c =>
         Format = "date"
     });
 });
+
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>>(x =>
+    new ConfigureSwaggerOptions($"{builder.Configuration["Authentication:Authority"]}"));
 
 var app = builder.Build();
 
