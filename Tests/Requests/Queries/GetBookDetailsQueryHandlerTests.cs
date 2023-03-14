@@ -43,7 +43,7 @@ public class GetBookDetailsQueryHandlerTests
         result.ExpireDate.ShouldBe(null);
         result.Authors[0].Id.ShouldBe(new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"));
         result.Authors[0].FirstName.ShouldBe("Alexander");
-        result.Authors[0].FirstName.ShouldBe("Pushkin");
+        result.Authors[0].LastName.ShouldBe("Pushkin");
         result.Authors[0].BirthDate.ShouldBe(new DateOnly(1799, 6, 6));
 
     }

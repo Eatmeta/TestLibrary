@@ -22,7 +22,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
                 Description = $"Book Api Test Task From Modsen. Please autorize with client_id: 8aaac42f-5ba5-4714-8fba-9b2947b7f04a and client_secret: secret",
                 Contact = new OpenApiContact
                 {
-                    Name = "Aliaksandr Shamak",
+                    Name = "by Aliaksandr Shamak",
                     Email = string.Empty,
                     Url = new Uri("https://www.linkedin.com/in/eatmeta")
                 }

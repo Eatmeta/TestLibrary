@@ -28,7 +28,7 @@ public class DeleteBookCommandHandlerTests : TestCommandBase
         foreach (var resultAuthor in resultAuthors)
         {
             // Проверяем, что после удаления книги у каждого автора она исчезла из списка его книг.
-            Assert.Null(resultAuthor.Books.Contains(resultBook));
+            Assert.False(resultAuthor.Books.Contains(resultBook));
         }
     }
 

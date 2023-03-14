@@ -109,4 +109,5 @@ app.MapControllers();
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
+app.MigrateDatabase();
 app.Run();

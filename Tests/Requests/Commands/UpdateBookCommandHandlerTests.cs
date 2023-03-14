@@ -20,10 +20,10 @@ public class UpdateBookCommandHandlerTests : TestCommandBase
         var bookGenre = GenreEnum.Novel;
         var bookIssueDate = new DateOnly(2023, 1, 9);
         var bookExpireDate = new DateOnly(2023, 5, 9);
-        var authorId = new Guid("a1784ca2-887b-4132-3bdd-9935fd65dd55");
-        var authorFirstName = "David";
-        var authorLastName = "Mitchell";
-        var authorBirthDate = new DateOnly(1974, 07, 14);
+        var authorId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59");
+        var authorFirstName = "Alexander";
+        var authorLastName = "Pushkin";
+        var authorBirthDate = new DateOnly(1799, 6, 6);
         var authors = new List<Author>
         {
             new()
@@ -45,7 +45,7 @@ public class UpdateBookCommandHandlerTests : TestCommandBase
             Description = bookDescription,
             IssueDate = bookIssueDate,
             ExpireDate = bookExpireDate,
-            Authors = new List<Author>(authors)
+            //Authors = new List<Author>(authors)
         }, CancellationToken.None);
 
         // Assert

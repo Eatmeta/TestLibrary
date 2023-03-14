@@ -47,7 +47,10 @@ public class CreateBookCommandHandlerTests : TestCommandBase
             CancellationToken.None);
 
         // Assert
-        var resultBook = await Context.Books.SingleOrDefaultAsync(book =>
+        var resultBook = Context.Books
+            .Include(b => b.Authors)
+            .AsEnumerable()
+            .SingleOrDefault(book =>
             book.Id == resultBookId &&
             book.Isbn == bookIsbn &&
             book.Title == bookTitle &&

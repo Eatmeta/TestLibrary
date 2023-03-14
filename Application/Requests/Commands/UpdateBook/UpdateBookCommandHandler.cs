@@ -25,7 +25,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         entity.Isbn = request.Isbn.Replace("-", "").Replace(" ", "");
         entity.Title = request.Title;
         entity.Genre = request.Genre;
-        entity.Authors = new List<Author>(request.Authors);
+        //entity.Authors = new List<Author>(request.Authors);
         entity.Description = request.Description;
         entity.IssueDate = request.IssueDate;
         entity.ExpireDate = request.ExpireDate;

@@ -22,6 +22,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.ApplyConfiguration(new BookConfiguration());
         
         base.OnModelCreating(modelBuilder);
-        new DbInitializer(modelBuilder).Seed();
+        //new DbInitializer(modelBuilder).Seed();
     }
 }
