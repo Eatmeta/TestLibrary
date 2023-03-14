@@ -12,7 +12,7 @@ public class GetBookListQueryHandler : IRequestHandler<GetBookListQuery, BookLis
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetBookListQueryHandler(IApplicationDbContext dbContext, IMapper mapper, IMediator mediator) =>
+    public GetBookListQueryHandler(IApplicationDbContext dbContext, IMapper mapper) =>
         (_dbContext, _mapper) = (dbContext, mapper);
 
     public async Task<BookListVm> Handle(GetBookListQuery request, CancellationToken cancellationToken)

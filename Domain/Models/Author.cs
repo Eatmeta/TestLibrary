@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public class Author
+public record Author
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }
@@ -10,6 +10,4 @@ public class Author
     public List<Book> Books { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public List<AuthorBook> AuthorsBooks { get; set; } = new();
-    
-    public override string ToString() => $"{Id}:{FirstName}:{LastName}";
 }

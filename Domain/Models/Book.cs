@@ -8,7 +8,7 @@ public enum GenreEnum
     Fantasy
 }
 
-public class Book
+public record Book
 {
     public Guid Id { get; set; }
     public string Isbn { get; set; }
@@ -20,6 +20,4 @@ public class Book
     public DateOnly? ExpireDate { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public List<AuthorBook> AuthorsBooks { get; set; } = new();
-    
-    public override string ToString() => $"{Id}:{Title}";
 }

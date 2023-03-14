@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public class AuthorBook
+public record AuthorBook
 {
     public Guid AuthorId { get; set; }
     public Author Author {  get; set; }
