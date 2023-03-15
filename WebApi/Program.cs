@@ -5,7 +5,6 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Persistence;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using WebApi;
@@ -72,11 +71,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(swaggerGenOptions =>
 {
-    swaggerGenOptions.MapType<DateOnly>(() => new OpenApiSchema
-    {
-        Type = "string",
-        Format = "date"
-    });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    swaggerGenOptions.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>>(x =>
@@ -107,7 +104,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
 app.MigrateDatabase();
+
 app.Run();

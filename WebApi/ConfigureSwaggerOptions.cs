@@ -57,5 +57,11 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             apiDescription.TryGetMethodInfo(out var methodInfo)
                 ? methodInfo.Name
                 : null);
+        
+        swaggerGenOptions.MapType<DateOnly>(() => new OpenApiSchema
+        {
+            Type = "string",
+            Format = "date"
+        });
     }
 }

@@ -16,7 +16,6 @@ public static class MigrationManager
         }
         catch (Exception ex)
         {
-            //Log errors or do anything you think it's needed
             throw new Exception("An error occurred while app initialization");
         }
         

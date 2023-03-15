@@ -102,19 +102,21 @@ public class BookController : BaseController
     /// Updates the book
     /// </summary>
     /// <param name="updateBookDto">UpdateBookDto object</param>
-    /// <returns>Returns NoContent</returns>
-    /// <response code="204">Success</response>
+    /// <returns>Returns id (guid)</returns>
+    /// <response code="200">Success</response>
     /// <response code="401">User is unauthorized</response>
     [HttpPut]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Update([FromBody] UpdateBookDto updateBookDto)
     {
         var command = _mapper.Map<UpdateBookCommand>(updateBookDto);
         await Mediator.Send(command);
 
-        return NoContent();
+        var bookId = await Mediator.Send(command);
+
+        return Ok(bookId);
     }
 
     /// <summary>

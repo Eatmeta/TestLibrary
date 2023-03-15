@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Interfaces;
 using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,11 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
 
     public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
+        if (_dbContext.Books.Any(b => b.Isbn == request.Isbn))
+        {
+            throw new DublicateIsbnException(request.Isbn);
+        }
+        
         var authors = new List<Author>();
 
         foreach (var requestAuthor in request.Authors)

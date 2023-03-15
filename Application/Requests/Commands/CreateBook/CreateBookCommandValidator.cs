@@ -13,6 +13,13 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
         RuleFor(createBookCommand => createBookCommand.Isbn)
             .NotEmpty().WithMessage("ISBN is required.")
             .Must(isIsbnValid).WithMessage("ISBN is not valid.");
+
+        RuleFor(createBookCommand => createBookCommand.Authors)
+            .NotEmpty().WithMessage("Author is required.");
+        
+        RuleFor(createBookCommand => createBookCommand.Genre)
+            .IsInEnum().WithMessage("Such a genre is not exist");
+        
     }
     
     public static bool isIsbnValid(string isbn)

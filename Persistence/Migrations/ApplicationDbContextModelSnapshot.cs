@@ -129,7 +129,8 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Isbn")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.Property<DateOnly?>("IssueDate")
                         .HasColumnType("date");
@@ -140,6 +141,9 @@ namespace Persistence.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Isbn")
+                        .IsUnique();
 
                     b.ToTable("Books");
 

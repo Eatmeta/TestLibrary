@@ -18,10 +18,16 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
             .NotEmpty().WithMessage("ISBN is required.")
             .Must(CreateBookCommandValidator.isIsbnValid).WithMessage("ISBN is not valid.");
 
-        RuleFor(updateBookCommand => updateBookCommand)
-            .Must(IsExpireDateAfterIssueDate).WithMessage("Expire date must be after issue date");
+        RuleFor(updateBookCommand => updateBookCommand.IssueDate)
+            .LessThan(updateBookCommand => updateBookCommand.ExpireDate)
+            .WithMessage("Expire date must be after issue date");
+        
+        RuleFor(updateBookCommand => updateBookCommand.IssueDate)
+            .NotNull()
+            .When(updateBookCommand => updateBookCommand.ExpireDate != null)
+            .WithMessage("Please set both issue and expire dates");
+        
+        RuleFor(createBookCommand => createBookCommand.Genre)
+            .IsInEnum().WithMessage("Such a genre is not exist");
     }
-
-    private static bool IsExpireDateAfterIssueDate(UpdateBookCommand updateBookCommand)
-        => updateBookCommand.IssueDate < updateBookCommand.ExpireDate;
 }

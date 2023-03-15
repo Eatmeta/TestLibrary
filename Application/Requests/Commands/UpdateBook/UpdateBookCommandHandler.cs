@@ -6,16 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Requests.Commands.UpdateBook;
 
-public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
+public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Guid>
 {
     private readonly IApplicationDbContext _dbContext;
 
-    public UpdateBookCommandHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
+    public UpdateBookCommandHandler(IApplicationDbContext dbContext)
+        => _dbContext = dbContext;
 
-    public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
         var entity =
             await _dbContext.Books.FirstOrDefaultAsync(book => book.Id == request.Id, cancellationToken);
+        
+        if (entity.Isbn != request.Isbn && _dbContext.Books.Any(b => b.Isbn == request.Isbn))
+        {
+            throw new DublicateIsbnException(request.Isbn);
+        }
 
         if (entity == null)
         {
@@ -46,5 +52,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return request.Id;
     }
 }

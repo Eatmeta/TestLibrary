@@ -8,7 +8,7 @@ public enum GenreEnum
     Fantasy
 }
 
-public record Book
+public class Book
 {
     public Guid Id { get; set; }
     public string Isbn { get; set; }

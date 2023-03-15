@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public record Author
+public class Author
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

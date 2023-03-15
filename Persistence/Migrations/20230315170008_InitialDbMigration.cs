@@ -32,7 +32,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Isbn = table.Column<string>(type: "text", nullable: false),
+                    Isbn = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
                     Title = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Genre = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
@@ -104,6 +104,12 @@ namespace Persistence.Migrations
                 name: "IX_AuthorsBooks_BookId",
                 table: "AuthorsBooks",
                 column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_Isbn",
+                table: "Books",
+                column: "Isbn",
+                unique: true);
         }
 
         /// <inheritdoc />

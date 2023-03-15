@@ -10,10 +10,11 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     public void Configure(EntityTypeBuilder<Book> builder)
     {
         builder.HasKey(book => book.Id);
-        
+
+        builder.HasIndex(u => u.Isbn).IsUnique();
         builder.Property(book => book.Isbn).HasMaxLength(13);
         builder.Property(book => book.Title).HasMaxLength(500);
-        
+
         builder.Property(book => book.Genre).HasConversion(new EnumToStringConverter<GenreEnum>());
 
         builder.HasMany(b => b.Authors)
