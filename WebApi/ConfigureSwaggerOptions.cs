@@ -18,8 +18,8 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         swaggerGenOptions.SwaggerDoc("v1",
             new OpenApiInfo
             {
-                Title = $"Book Api",
-                Description = $"Book Api Test Task From Modsen. Please autorize with client_id: 8aaac42f-5ba5-4714-8fba-9b2947b7f04a and client_secret: secret",
+                Title = $"TestLibrary Api",
+                Description = $"Library Api Test Task From Modsen. Please autorize with *** client_id: 8aaac42f-5ba5-4714-8fba-9b2947b7f04a *** and *** client_secret: secret ***",
                 Contact = new OpenApiContact
                 {
                     Name = "by Aliaksandr Shamak",

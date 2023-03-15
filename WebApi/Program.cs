@@ -70,9 +70,9 @@ builder.Services.AddCors(corsOptions =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(swaggerGenOptions =>
 {
-    c.MapType<DateOnly>(() => new OpenApiSchema
+    swaggerGenOptions.MapType<DateOnly>(() => new OpenApiSchema
     {
         Type = "string",
         Format = "date"
@@ -87,11 +87,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-
-    app.UseSwagger();
-
-    app.UseSwaggerUI();
 }
+
+app.UseSwagger();
+
+app.UseSwaggerUI();
 
 app.UseCustomExceptionHandler();
 

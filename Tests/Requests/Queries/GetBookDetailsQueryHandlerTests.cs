@@ -26,25 +26,44 @@ public class GetBookDetailsQueryHandlerTests
         var handler = new GetBookDetailsQueryHandler(Context, Mapper);
 
         // Act
-        var result = await handler.Handle(
+        var resultById = await handler.Handle(
             new GetBookDetailsQuery
             {
                 Id = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb")
             },
             CancellationToken.None);
+        
+        var resultByIsbn = await handler.Handle(
+            new GetBookDetailsQuery
+            {
+                Isbn = "9783161484100"
+            },
+            CancellationToken.None);
 
         // Assert
-        result.ShouldBeOfType<BookDetailsDto>();
-        result.Isbn.ShouldBe("9783161484100");
-        result.Title.ShouldBe("Eugene Onegin");
-        result.Genre.ShouldBe(GenreEnum.Novel);
-        result.Description.ShouldBe("Eugene Onegin is a novel written in verse, and is one of the most influential works of Pushkin in particular and for Russian literature in general.");
-        result.IssueDate.ShouldBe(null);
-        result.ExpireDate.ShouldBe(null);
-        result.Authors[0].Id.ShouldBe(new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"));
-        result.Authors[0].FirstName.ShouldBe("Alexander");
-        result.Authors[0].LastName.ShouldBe("Pushkin");
-        result.Authors[0].BirthDate.ShouldBe(new DateOnly(1799, 6, 6));
+        resultById.ShouldBeOfType<BookDetailsDto>();
+        resultById.Isbn.ShouldBe("9783161484100");
+        resultById.Title.ShouldBe("Eugene Onegin");
+        resultById.Genre.ShouldBe(GenreEnum.Novel);
+        resultById.Description.ShouldBe("Eugene Onegin is a novel written in verse, and is one of the most influential works of Pushkin in particular and for Russian literature in general.");
+        resultById.IssueDate.ShouldBe(null);
+        resultById.ExpireDate.ShouldBe(null);
+        resultById.Authors[0].Id.ShouldBe(new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"));
+        resultById.Authors[0].FirstName.ShouldBe("Alexander");
+        resultById.Authors[0].LastName.ShouldBe("Pushkin");
+        resultById.Authors[0].BirthDate.ShouldBe(new DateOnly(1799, 6, 6));
+        
+        resultByIsbn.ShouldBeOfType<BookDetailsDto>();
+        resultByIsbn.Id.ShouldBe(new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"));
+        resultByIsbn.Title.ShouldBe("Eugene Onegin");
+        resultByIsbn.Genre.ShouldBe(GenreEnum.Novel);
+        resultByIsbn.Description.ShouldBe("Eugene Onegin is a novel written in verse, and is one of the most influential works of Pushkin in particular and for Russian literature in general.");
+        resultByIsbn.IssueDate.ShouldBe(null);
+        resultByIsbn.ExpireDate.ShouldBe(null);
+        resultByIsbn.Authors[0].Id.ShouldBe(new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"));
+        resultByIsbn.Authors[0].FirstName.ShouldBe("Alexander");
+        resultByIsbn.Authors[0].LastName.ShouldBe("Pushkin");
+        resultByIsbn.Authors[0].BirthDate.ShouldBe(new DateOnly(1799, 6, 6));
 
     }
 }
