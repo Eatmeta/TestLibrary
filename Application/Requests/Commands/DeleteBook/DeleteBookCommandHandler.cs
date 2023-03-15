@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Domain.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Requests.Commands.DeleteBook;
 
@@ -18,6 +19,15 @@ public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
         
         if (entity == null)
             throw new NotFoundException(nameof(Book), request.Id);
+
+        var authorsToDelete = await _dbContext.Authors.Where(a =>
+            a.Books.Contains(entity) &&
+            a.Books.Count == 1).ToListAsync(cancellationToken: cancellationToken);
+        
+        foreach (var author in authorsToDelete)
+        {
+            _dbContext.Authors.Remove(author);
+        }
         
         _dbContext.Books.Remove(entity);
         await _dbContext.SaveChangesAsync(cancellationToken);

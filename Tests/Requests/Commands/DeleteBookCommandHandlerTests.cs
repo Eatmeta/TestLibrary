@@ -12,9 +12,12 @@ public class DeleteBookCommandHandlerTests : TestCommandBase
     public async Task DeleteBookCommandHandler_Success()
     {
         var handler = new DeleteBookCommandHandler(Context);
-        var resultBook = await Context.Books.Where(book => book.Id == BooksContextFactory.BookIdToDelete)
+        var resultBook = await Context.Books
+            .Where(book => book.Id == BooksContextFactory.BookIdToDelete)
             .SingleOrDefaultAsync();
-        var resultAuthors = await Context.Authors.Where(a => a.Books.Contains(resultBook)).ToListAsync();
+        var resultAuthors = await Context.Authors
+            .Where(a => a.Books.Contains(resultBook))
+            .ToListAsync();
 
         await handler.Handle(new DeleteBookCommand
         {
@@ -25,10 +28,13 @@ public class DeleteBookCommandHandlerTests : TestCommandBase
         // Проверяем, что после удаления книги ее нет в таблице Книги.
         Assert.Null(Context.Books.SingleOrDefault(book => book.Id == BooksContextFactory.BookIdToDelete));
 
-        foreach (var resultAuthor in resultAuthors)
+        // Проверяем, что после удаления книги у авторов этой книги ее больше нет в списке их книг.
+        // А если у автора была только одна эта книга, то автор удаляется из базы.
+        foreach (var resultAuthor in resultAuthors.SelectMany(_ => resultAuthors))
         {
-            // Проверяем, что после удаления книги у каждого автора она исчезла из списка его книг.
-            Assert.False(resultAuthor.Books.Contains(resultBook));
+            var author = await Context.Authors.FindAsync(resultAuthor.Id);
+            if (author != null)
+                Assert.False(author.Books.Contains(resultBook));
         }
     }
 

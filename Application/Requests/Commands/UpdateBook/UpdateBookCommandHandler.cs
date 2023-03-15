@@ -21,15 +21,30 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         {
             throw new NotFoundException(nameof(Book), request.Id);
         }
-        
+
+        var requestAuthorIds = request.Authors.Select(a => a.Id).ToList();
+
+        foreach (var requestAuthorId in requestAuthorIds.Where(requestAuthorId =>
+                     !_dbContext.Authors.Any(a => a.Id == requestAuthorId)))
+        {
+            throw new NotFoundException(nameof(Author), requestAuthorId);
+        }
+
         entity.Isbn = request.Isbn.Replace("-", "").Replace(" ", "");
         entity.Title = request.Title;
         entity.Genre = request.Genre;
-        //entity.Authors = new List<Author>(request.Authors);
         entity.Description = request.Description;
         entity.IssueDate = request.IssueDate;
         entity.ExpireDate = request.ExpireDate;
         
+        foreach (var requestAuthor in request.Authors)
+        {
+            var author = await _dbContext.Authors.FindAsync(new object[] {requestAuthor.Id}, cancellationToken);
+            author.FirstName = requestAuthor.FirstName;
+            author.LastName = requestAuthor.LastName;
+            author.BirthDate = requestAuthor.BirthDate;
+        }
+
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
