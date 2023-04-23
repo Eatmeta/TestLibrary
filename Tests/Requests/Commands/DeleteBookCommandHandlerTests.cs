@@ -34,7 +34,7 @@ public class DeleteBookCommandHandlerTests : TestCommandBase
         {
             var author = await Context.Authors.FindAsync(resultAuthor.Id);
             if (author != null)
-                Assert.False(author.Books.Contains(resultBook));
+                Assert.DoesNotContain(resultBook, author.Books);
         }
     }
 

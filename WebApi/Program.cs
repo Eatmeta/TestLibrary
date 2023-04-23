@@ -3,7 +3,6 @@ using Application;
 using Application.Common.Mappings;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Persistence;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -13,16 +12,6 @@ using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, dbContextOptionsBuilder) =>
-{
-    dbContextOptionsBuilder.UseNpgsql(
-        serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("DbConnection"),
-        npgsqlDbContextOptionsBuilder
-            => npgsqlDbContextOptionsBuilder.MigrationsAssembly(typeof(Program).GetTypeInfo().Assembly.GetName().Name));
-});
-
-builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
@@ -30,6 +19,8 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddApplication();
+
+builder.Services.AddPersistence();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(jwtBearerOptions =>

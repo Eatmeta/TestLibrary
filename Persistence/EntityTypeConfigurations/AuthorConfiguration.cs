@@ -20,6 +20,6 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
                     .HasOne(ab => ab.Author)
                     .WithMany(a => a.AuthorsBooks)
                     .HasForeignKey(ab => ab.AuthorId)
-                );
+            );
     }
 }
